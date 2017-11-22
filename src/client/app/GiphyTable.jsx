@@ -7,6 +7,15 @@ class GiphyTable extends React.Component {
   }
 
   render() {
+    let set = []
+    let rows = [];
+    for(let i = 0; i < this.props.giphyCollection.length; i++) {
+      set.push(this.props.giphyCollection[i])
+      if(set.length === 5) {
+        rows.push(set);        
+        set = [];
+      }
+    }
     return (
     <div>  
       {console.log(`this.props.giphyCollection: ${Array.isArray(this.props.giphyCollection)}`)}
@@ -16,9 +25,14 @@ class GiphyTable extends React.Component {
           
         </thead>
         <tbody>
-          {this.props.giphyCollection.map( (giphy, index) => {
+          {
+            rows.map((row, index) => {
+              return <GiphyRow giphyRow={row} key={index}/>
+            })
+          }
+          {/* {this.props.faveGiphyCollection.map( (giphy, index) => {
             return <GiphyRow giphy={giphy} key={index}/>
-          })}
+          })} */}
         </tbody>
       </table>
     </div>

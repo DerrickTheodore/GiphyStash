@@ -1,4 +1,5 @@
 import React from 'react';
+import GiphyRowData from './GiphyRowData.jsx';
 
 class GiphyRow extends React.Component {
   constructor(props) {
@@ -8,7 +9,9 @@ class GiphyRow extends React.Component {
   render() {
     return (
       <tr>
-        <td><img src={this.props.giphy.images.fixed_height_small.url} /></td>
+        {this.props.giphyRow.map( (giphy, index) => {
+          return <GiphyRowData giphy={giphy} key={index} />
+        })}
       </tr>
     )
   }

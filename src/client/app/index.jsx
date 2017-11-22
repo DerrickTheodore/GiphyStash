@@ -9,7 +9,8 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      searchedGiphy: [],
+      searchedGiphys: [],
+      favGiphys: [],
       searchInput: ''
     }
   }
@@ -24,7 +25,7 @@ class App extends React.Component {
     axios.get(`http://api.giphy.com/v1/gifs/search?q=${this.state.searchInput.replace(/\s+/g,'+')}&api_key=${API_KEY.giphy}&rating=g&limit=10`)
     .then( (result) => {
       console.log(`result.data: ${JSON.stringify(result.data)}`)
-      this.setState({searchedGiphy: result.data.data});
+      this.setState({searchedGiphys: result.data.data, favGiphys: result.data.data});
     })
     .catch(err => console.error(err));  
   }
@@ -35,7 +36,7 @@ class App extends React.Component {
           Giphy Search:<br/>
           <input type="text" name="query" onChange={this.handleSearchChange.bind(this)}/>
           <button  type="submit" onClick={this.handleGiphySearch.bind(this)}>Search</button>
-        <GiphyTable giphyCollection={this.state.searchedGiphy}/>
+        <GiphyTable faveGiphyCollection={this.state.favGiphys} giphyCollection={this.state.searchedGiphys}/>
       </div>  
     )
   }
