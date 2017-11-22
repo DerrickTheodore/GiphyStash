@@ -35,13 +35,21 @@ app.get('/rating/:ratingId', (req, res) => {
 })
 
 //Add all selected favorites to database
-app.post('/addFav', (req, res) => {
+app.post('/addFaves', (req, res) => {
   Images.bulkCreate(req.body)
   .then(images => {
     res.json(images)
   });
 })
 
+//delete fav by id off req.params.imageId
+app.delete('/image/:imageId', (req, res) => {
+  Images.find({where: {id: req.params.imageId} })
+  .then(image => {
+    console.log(`image: ${image}`);
+    return image.destroy({force: true});
+  }).then(() => res.json());
+})
 
 //update a perviously saved image's rating
 app.put('/updateRating/:updateRatingId-:newRatingId', (req, res) => {
@@ -54,6 +62,8 @@ app.put('/updateRating/:updateRatingId-:newRatingId', (req, res) => {
     res.json(row);
   })
 })
+
+
 
 
 
