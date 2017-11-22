@@ -16,5 +16,8 @@
     "imgur"
   ],
   "author": "Derrick Theodore",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "webpack": "^3.8.1"
+  }
 }
