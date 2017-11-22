@@ -2,7 +2,7 @@ const webpack = require('webpack');
 const path = require('path');
 
 //path.resolve creates an absolute path 
-let BUILD_DIR = path.resolve(__dirname, 'src/client/public');
+let BUILD_DIR = path.resolve(__dirname, 'src/server/public');
 let APP_DIR = path.resolve(__dirname, 'src/client/app');
 
 let config = {
@@ -19,7 +19,8 @@ let config = {
       {
         test: /\.jsx?/,
         include: APP_DIR,
-        loader: 'babel'
+        //init had babel here, but ran into compile error. In error message it stated that we had to specify "babel-loader" instead of "babel"
+        loader: 'babel-loader'
       }
     ]
   }
