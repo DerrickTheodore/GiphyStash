@@ -12,6 +12,16 @@ let config = {
     //directory with my inex.html file which will have a script tag with my minified bundle.js with all I need to run ES6 + JSX on browser
     path: BUILD_DIR,
     filename: 'bundle.js'
+  },
+  module : {
+    //babel-loader config, test: which file ext. to check, include: which directory to look for these files, loader: name of loader
+    loaders: [
+      {
+        test: /\.jsx?/,
+        include: APP_DIR,
+        loader: 'babel'
+      }
+    ]
   }
 };
 

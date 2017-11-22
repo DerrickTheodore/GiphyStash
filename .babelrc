@@ -1,0 +1,6 @@
+//babel-loader config to use plugin for Es6 and Jsx 
+{
+  "presets": [
+    "es2015", "react"
+  ]
+}
