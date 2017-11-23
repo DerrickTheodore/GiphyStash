@@ -11,7 +11,8 @@ class App extends React.Component {
     this.state = {
       searchedGiphys: [],
       favGiphys: [],
-      searchInput: ''
+      searchInput: '',
+      selectValue: ''
     }
   }
 
@@ -23,7 +24,6 @@ class App extends React.Component {
   }
 
   handleSearchChange(e) {
-    console.log(`[handleSearchChange]: e.tar.val=> ${e.target.value}`)
     this.setState({searchInput: e.target.value})
   }
     
@@ -40,17 +40,34 @@ class App extends React.Component {
   handleFaveUpdate() {
     axios.get('/allFav')
     .then( (result) => {
-      console.log(`[axios.get('/allFav')] => ${JSON.stringify(result)}`)
-      this.setState({favGiphys: result.data})
+      this.setState({favGiphys: result.data});
     })
   }
 
+  handleSelectChange(e) {
+    e.persist()
+    axios.get(`/rating/${e.target.value}`)
+    .then( (result) => {
+      this.setState({selectValue: e.target.value, favGiphys: result.data});
+    })
+  }
+  
   render() {
     return (
       <div>
           Giphy Search:<br/>
           <input type="text" name="query" onChange={this.handleSearchChange.bind(this)}/>
           <button  type="submit" onClick={this.handleGiphySearch.bind(this)}>Search</button>
+          <div>
+            Giphy Search by Rating:<br/>
+            <select onChange={this.handleSelectChange.bind(this)} value={this.state.selectValue}>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+              <option value="4">Four</option>
+              <option value="5">Five</option>
+            </select>
+          </div>
         <GiphyTable handleFaveUpdate={this.handleFaveUpdate.bind(this)} faveGiphyCollection={this.state.favGiphys} giphyCollection={this.state.searchedGiphys}/>
       </div>  
     )
