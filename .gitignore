@@ -1,3 +1,5 @@
 node_modules
 src/server/CREDENTIALS.js
 src/client/API_KEYs.js
+src/server/public/bundle.js
+
