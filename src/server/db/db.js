@@ -32,7 +32,7 @@ const Images = sequelize.define('images', {
   rating: {
     type: Sequelize.INTEGER,
     allowNull: false,
-    defaultValue: 0
+    defaultValue: 1
   }
 })
 

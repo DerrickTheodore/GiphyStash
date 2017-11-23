@@ -28,6 +28,8 @@ class GiphyTable extends React.Component {
       } else if(this.props.faveGiphyCollection.length === favSet.length) {
         favRows.push(favSet);        
         favSet = [];
+      } else if(((this.props.faveGiphyCollection.length - j) % 5) && j === ((this.props.faveGiphyCollection.length - 1))) {
+        favRows.push(favSet);
       }
     }
     return (

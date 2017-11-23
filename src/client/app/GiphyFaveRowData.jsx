@@ -10,7 +10,6 @@ class GiphyFaveRowData extends React.Component {
     
     const starArr = new Array(this.props.rating)
     let style = {
-      listStyleImage: "http://www.clker.com/cliparts/s/v/7/G/S/D/star-md.png"
     }
 
     return (
