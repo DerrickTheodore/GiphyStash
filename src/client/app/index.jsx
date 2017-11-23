@@ -37,7 +37,7 @@ class App extends React.Component {
     .catch(err => console.error(err));  
   }
 
-  handleFaveSelect() {
+  handleFaveUpdate() {
     axios.get('/allFav')
     .then( (result) => {
       console.log(`[axios.get('/allFav')] => ${JSON.stringify(result)}`)
@@ -51,7 +51,7 @@ class App extends React.Component {
           Giphy Search:<br/>
           <input type="text" name="query" onChange={this.handleSearchChange.bind(this)}/>
           <button  type="submit" onClick={this.handleGiphySearch.bind(this)}>Search</button>
-        <GiphyTable handleFaveSelect={this.handleFaveSelect.bind(this)} faveGiphyCollection={this.state.favGiphys} giphyCollection={this.state.searchedGiphys}/>
+        <GiphyTable handleFaveUpdate={this.handleFaveUpdate.bind(this)} faveGiphyCollection={this.state.favGiphys} giphyCollection={this.state.searchedGiphys}/>
       </div>  
     )
   }

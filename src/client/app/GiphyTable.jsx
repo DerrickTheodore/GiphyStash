@@ -39,7 +39,7 @@ class GiphyTable extends React.Component {
         <tbody>
           {
             rows.map((row, index) => {
-              return <GiphyRow handleFaveSelect={this.props.handleFaveSelect} giphyRow={row} key={index}/>
+              return <GiphyRow handleFaveSelect={this.props.handleFaveUpdate} giphyRow={row} key={index}/>
             })
           }
         </tbody>
@@ -49,7 +49,7 @@ class GiphyTable extends React.Component {
         <tbody>
           {
             favRows.map((row, index) => {
-              return <GiphyFaveRow giphyRow={row} key={index}/>
+              return <GiphyFaveRow giphyRow={row} handleFaveUpdate={this.props.handleFaveUpdate} key={index}/>
             })
           }
         </tbody>

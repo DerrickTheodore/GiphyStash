@@ -15,6 +15,7 @@ class GiphyRowData extends React.Component {
     })
   }
 
+
   render() {
     console.log(`this.props: ${JSON.stringify(this.props)}`)
     return (
