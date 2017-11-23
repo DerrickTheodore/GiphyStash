@@ -13,6 +13,12 @@ class FaveStars extends React.Component{
     handleRatingDblClick() {
       /**
        * This was tricky...
+       * 
+       * IMPORTANT:
+       * when init started using set&clearTimeout, VS dynamically imported "import { clearInterval } from 'timers';" for me, but init
+       * it was { clearTimeout } instead. It caused a runtime error of clear.timeout typeError, so after running the debugger on the code line 
+       * returned from init error.  I notice that clear === the timeoutId I had stored in my component's state, and it was trying to call timeout on that
+       * number.  After some googling I came upon the fix of just changing it to "clearInterval"
        */
       let imageId = this.props.giphyInfo.id;
 
