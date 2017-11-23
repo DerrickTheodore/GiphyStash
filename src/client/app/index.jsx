@@ -45,9 +45,10 @@ class App extends React.Component {
 
   handleSelectChange(e) {
     e.persist()
+    this.setState({selectValue: e.target.value});
     axios.get(`/rating/${e.target.value}`)
     .then( (result) => {
-      this.setState({selectValue: e.target.value, favGiphys: result.data});
+      this.setState({favGiphys: result.data});
     })
   }
   
