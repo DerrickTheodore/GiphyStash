@@ -17,10 +17,7 @@ class GiphyFaveRowData extends React.Component {
   }
 
   render() {
-    
-    // starArr.map( (asterick, index) => {
-    //   return <FaveStars giphyInfo={this.props.giphy} handleFaveUpdate={this.props.handleFaveUpdate} key={index}/>
-    // })
+  
     const starArr = [];
     for(let i = 0; i < this.props.giphy.rating; i++) {
       starArr.push(<FaveStars giphyInfo={this.props.giphy} handleFaveUpdate={this.props.handleFaveUpdate} key={i}/>);

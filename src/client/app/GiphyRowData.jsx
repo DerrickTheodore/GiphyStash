@@ -10,14 +10,12 @@ class GiphyRowData extends React.Component {
     let url = this.props.giphy.images.fixed_height_small.url;
     axios.post('/addFaves', {url: url})
     .then( () => {
-      console.log(`[this.props.handleFaveSelect()]`)
       this.props.handleFaveSelect()
     })
   }
 
 
   render() {
-    console.log(`this.props: ${JSON.stringify(this.props)}`)
     return (
         <td><img src={this.props.giphy.images.fixed_height_small.url} onClick={
           this.handleFavClick.bind(this)

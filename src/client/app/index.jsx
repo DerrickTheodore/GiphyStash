@@ -1,5 +1,5 @@
 import React from 'react';
-import {render} from 'react-dom'; //Using destructing here to grab this method off react-dom object
+import {render} from 'react-dom'; 
 import axios from 'axios'
 import GiphyTable from './GiphyTable.jsx';
 
@@ -31,7 +31,6 @@ class App extends React.Component {
     e.preventDefault();
     axios.get(`http://api.giphy.com/v1/gifs/search?q=${this.state.searchInput.replace(/\s+/g,'+')}&api_key=${API_KEY.giphy}&rating=g&limit=10`)
     .then( (result) => {
-      console.log(`result.data: ${JSON.stringify(result.data)}`)
       this.setState({searchedGiphys: result.data.data});
     })
     .catch(err => console.error(err));  
