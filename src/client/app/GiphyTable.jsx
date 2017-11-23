@@ -1,5 +1,6 @@
 import React from 'react';
 import GiphyRow from './GiphyRow.jsx';
+import GiphyFaveRow from './GiphyFaveRow.jsx';
 
 class GiphyTable extends React.Component {
   constructor(props) {
@@ -7,7 +8,7 @@ class GiphyTable extends React.Component {
   }
 
   render() {
-    let set = []
+    let set = [];
     let rows = [];
     for(let i = 0; i < this.props.giphyCollection.length; i++) {
       set.push(this.props.giphyCollection[i])
@@ -16,23 +17,39 @@ class GiphyTable extends React.Component {
         set = [];
       }
     }
+
+    let favSet = [];
+    let favRows = [];
+    for(let j = 0; j < this.props.faveGiphyCollection.length; j++) {
+      favSet.push(this.props.faveGiphyCollection[j])
+      if(favSet.length === 5) {
+        favRows.push(favSet);        
+        favSet = [];
+      } else if(this.props.faveGiphyCollection.length === favSet.length) {
+        favRows.push(favSet);        
+        favSet = [];
+      }
+    }
     return (
     <div>  
-      {console.log(`this.props.giphyCollection: ${Array.isArray(this.props.giphyCollection)}`)}
       <h3>Giphy Search Results:</h3>
       <table>
-        <thead>
-          
-        </thead>
         <tbody>
           {
             rows.map((row, index) => {
-              return <GiphyRow giphyRow={row} key={index}/>
+              return <GiphyRow handleFaveSelect={this.props.handleFaveSelect} giphyRow={row} key={index}/>
             })
           }
-          {/* {this.props.faveGiphyCollection.map( (giphy, index) => {
-            return <GiphyRow giphy={giphy} key={index}/>
-          })} */}
+        </tbody>
+      </table>
+      <h3>My Favorite Giphies:</h3>
+      <table>
+        <tbody>
+          {
+            favRows.map((row, index) => {
+              return <GiphyFaveRow giphyRow={row} key={index}/>
+            })
+          }
         </tbody>
       </table>
     </div>

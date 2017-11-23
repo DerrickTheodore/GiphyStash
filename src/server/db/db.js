@@ -39,24 +39,24 @@ const Images = sequelize.define('images', {
 //this creates table based off Schema above
 //Alright, now we can CRUD some data 
 Images.sync({force: true}).then(() => {
-  //we can populate it with some data too
-  return Images.bulkCreate([
-    {
-      url: 'https://...someImageUrl0',
-      rating: 1
-    },
-    {
-      url: 'https://...someImageUrl1',
-      rating: 3
-    },
-    {
-      url: 'https://...someImageUrl2',
-      rating: 5
-    },
-    {
-      url: 'https://...someImageUrl3'
-    }
-  ]);
+  // //we can populate it with some data too
+  // return Images.bulkCreate([
+  //   {
+  //     url: 'https://...someImageUrl0',
+  //     rating: 1
+  //   },
+  //   {
+  //     url: 'https://...someImageUrl1',
+  //     rating: 3
+  //   },
+  //   {
+  //     url: 'https://...someImageUrl2',
+  //     rating: 5
+  //   },
+  //   {
+  //     url: 'https://...someImageUrl3'
+  //   }
+  // ]);
 })
 
 

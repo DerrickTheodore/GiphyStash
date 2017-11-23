@@ -34,9 +34,9 @@ app.get('/rating/:ratingId', (req, res) => {
   });
 })
 
-//Add all selected favorites to database
+//Add selected favorites to database
 app.post('/addFaves', (req, res) => {
-  Images.bulkCreate(req.body)
+  Images.create(req.body)
   .then(images => {
     res.json(images)
   });

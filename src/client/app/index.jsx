@@ -15,6 +15,13 @@ class App extends React.Component {
     }
   }
 
+  componentDidMount() {
+    axios.get('/allFav')
+    .then( (result) => {
+      this.setState({favGiphys: result.data})
+    })
+  }
+
   handleSearchChange(e) {
     console.log(`[handleSearchChange]: e.tar.val=> ${e.target.value}`)
     this.setState({searchInput: e.target.value})
@@ -25,9 +32,17 @@ class App extends React.Component {
     axios.get(`http://api.giphy.com/v1/gifs/search?q=${this.state.searchInput.replace(/\s+/g,'+')}&api_key=${API_KEY.giphy}&rating=g&limit=10`)
     .then( (result) => {
       console.log(`result.data: ${JSON.stringify(result.data)}`)
-      this.setState({searchedGiphys: result.data.data, favGiphys: result.data.data});
+      this.setState({searchedGiphys: result.data.data});
     })
     .catch(err => console.error(err));  
+  }
+
+  handleFaveSelect() {
+    axios.get('/allFav')
+    .then( (result) => {
+      console.log(`[axios.get('/allFav')] => ${JSON.stringify(result)}`)
+      this.setState({favGiphys: result.data})
+    })
   }
 
   render() {
@@ -36,7 +51,7 @@ class App extends React.Component {
           Giphy Search:<br/>
           <input type="text" name="query" onChange={this.handleSearchChange.bind(this)}/>
           <button  type="submit" onClick={this.handleGiphySearch.bind(this)}>Search</button>
-        <GiphyTable faveGiphyCollection={this.state.favGiphys} giphyCollection={this.state.searchedGiphys}/>
+        <GiphyTable handleFaveSelect={this.handleFaveSelect.bind(this)} faveGiphyCollection={this.state.favGiphys} giphyCollection={this.state.searchedGiphys}/>
       </div>  
     )
   }
