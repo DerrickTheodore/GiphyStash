@@ -1,7 +1,9 @@
 import React from 'react';
-import {render} from 'react-dom'; 
+import { render } from 'react-dom'; 
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import axios from 'axios'
-import GiphyTable from './GiphyTable.jsx';
+import Header from './Header.jsx';
+import Main from './Main.jsx';
 
 const API_KEY = require('../API_KEYs')
 
@@ -11,8 +13,6 @@ class App extends React.Component {
     this.state = {
       searchedGiphys: [],
       favGiphys: [],
-      searchInput: '',
-      selectValue: ''
     }
   }
 
@@ -22,14 +22,10 @@ class App extends React.Component {
       this.setState({favGiphys: result.data})
     })
   }
-
-  handleSearchChange(e) {
-    this.setState({searchInput: e.target.value})
-  }
     
-  handleGiphySearch(e) {
+  handleGiphySearch(e, searchInput) {
     e.preventDefault();
-    axios.get(`http://api.giphy.com/v1/gifs/search?q=${this.state.searchInput.replace(/\s+/g,'+')}&api_key=${API_KEY.giphy}&rating=g&limit=10`)
+    axios.get(`http://api.giphy.com/v1/gifs/search?q=${searchInput.replace(/\s+/g,'+')}&api_key=${API_KEY.giphy}&rating=g&limit=10`)
     .then( (result) => {
       this.setState({searchedGiphys: result.data.data});
     })
@@ -55,7 +51,15 @@ class App extends React.Component {
   render() {
     return (
       <div>
-          Giphy Search:<br/>
+          <Header />
+          <Main 
+            handleGiphySearch={this.handleGiphySearch.bind(this)}
+            handleFaveUpdate={this.handleFaveUpdate.bind(this)}
+            handleSelectChange={this.handleSelectChange.bind(this)}
+            faveGiphyCollection={this.state.favGiphys} 
+            giphyCollection={this.state.searchedGiphys}
+          />
+          {/* Giphy Search:<br/>
           <input type="text" name="query" onChange={this.handleSearchChange.bind(this)}/>
           <button  type="submit" onClick={this.handleGiphySearch.bind(this)}>Search</button>
           <div>
@@ -68,10 +72,14 @@ class App extends React.Component {
               <option value="5">Five</option>
             </select>
           </div>
-        <GiphyTable handleFaveUpdate={this.handleFaveUpdate.bind(this)} faveGiphyCollection={this.state.favGiphys} giphyCollection={this.state.searchedGiphys}/>
+        <GiphyTable handleFaveUpdate={this.handleFaveUpdate.bind(this)} faveGiphyCollection={this.state.favGiphys} giphyCollection={this.state.searchedGiphys}/> */}
       </div>  
     )
   }
 }
 
-render(<App />, document.getElementById('app'));
+render((
+<BrowserRouter>  
+  <App />
+</BrowserRouter>
+), document.getElementById('app'));
