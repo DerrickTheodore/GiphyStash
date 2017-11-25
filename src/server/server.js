@@ -17,7 +17,13 @@ app.use(express.static(path.join(__dirname, '/public')));
 //tested on postman
 //this request will get all my favorites 
 app.get('/allFav', (req, res) => {
-  Images.findAll()
+  /**
+   * options.order:
+   * Order results in ascending order by primary key
+   */
+  Images.findAll({order: [
+    ['id', 'ASC']
+  ]})
   .then(images => {
     res.json(images)
   });
@@ -39,7 +45,8 @@ app.post('/addFaves', (req, res) => {
   Images.create(req.body)
   .then(images => {
     res.json(images)
-  });
+  })
+  .catch((err) => console.error(err))
 })
 
 //delete fav by id off req.params.imageId
@@ -66,11 +73,6 @@ app.put('/updateRating/:updateRatingId-:newRatingId', (req, res) => {
 //Adding this route so we can respond to any possible URI request
 app.get('/*' , (req, res) => {
    res.sendFile(__dirname + '/public/index.html'); 
-  // res.send(403, 'Endpoint Not Found');
-  /**
-   * TODO:
-   * Create HTML file to render an error message with an associted gif, and a link to homepage
-   */
 })
 
 app.listen(4040, () => console.log('listening on port 4040'));

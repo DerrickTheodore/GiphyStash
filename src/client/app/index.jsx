@@ -13,6 +13,7 @@ class App extends React.Component {
     this.state = {
       searchedGiphys: [],
       favGiphys: [],
+      selectValue: ''
     }
   }
 
@@ -40,7 +41,7 @@ class App extends React.Component {
   }
 
   handleSelectChange(e) {
-    console.log(`[handleSelectChange] = ${e.target.value}`)
+    this.setState({selectValue: e.target.value})
     axios.get(`/rating/${e.target.value}`)
     .then( (result) => {
       this.setState({favGiphys: result.data});
@@ -57,6 +58,7 @@ class App extends React.Component {
             handleSelectChange={this.handleSelectChange.bind(this)}
             faveGiphyCollection={this.state.favGiphys} 
             giphyCollection={this.state.searchedGiphys}
+            selectValue={this.state.selectValue}
           />
       </div>  
     )
