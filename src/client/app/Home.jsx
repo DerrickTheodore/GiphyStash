@@ -6,8 +6,7 @@ class Home extends React.Component {
   constructor(props){
     super(props)
     this.state = {
-      searchInput: '',
-      selectValue: ''
+      searchInput: ''
     }
   }
 
@@ -24,18 +23,24 @@ class Home extends React.Component {
               <button  type="submit" onClick={(e) => this.props.props.handleGiphySearch(e, this.state.searchInput)}>Search</button>
               {/* <div>
                 Giphy Search by Rating:<br/>
-                <select onChange={this.handleSelectChange.bind(this)} value={this.state.selectValue}>
+                <select onChange={(e) => {
+                  this.setState({selectValue: e.target.value})
+                  this.props.props.handleSelectChange(e);
+                }
+                } value={this.state.selectValue}>
                   <option value="1">One</option>
                   <option value="2">Two</option>
                   <option value="3">Three</option>
                   <option value="4">Four</option>
                   <option value="5">Five</option>
                 </select>
-              </div>
-            <GiphyTable handleFaveUpdate={this.handleFaveUpdate.bind(this)} faveGiphyCollection={this.state.favGiphys} giphyCollection={this.state.searchedGiphys}/> */}
+              </div> */}
+            <GiphyTable giphyCollection={this.props.props.giphyCollection}/>
       </div>
     )
   }
 }
 
 export default Home;
+
+// handleFaveUpdate={this.handleFaveUpdate.bind(this)} faveGiphyCollection={this.state.favGiphys} 

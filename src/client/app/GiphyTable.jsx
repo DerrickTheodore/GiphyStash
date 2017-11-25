@@ -1,6 +1,6 @@
 import React from 'react';
 import GiphyRow from './GiphyRow.jsx';
-import GiphyFaveRow from './GiphyFaveRow.jsx';
+// import GiphyFaveRow from './GiphyFaveRow.jsx';
 
 class GiphyTable extends React.Component {
   constructor(props) {
@@ -18,20 +18,20 @@ class GiphyTable extends React.Component {
       }
     }
 
-    let favSet = [];
-    let favRows = [];
-    for(let j = 0; j < this.props.faveGiphyCollection.length; j++) {
-      favSet.push(this.props.faveGiphyCollection[j])
-      if(favSet.length === 5) {
-        favRows.push(favSet);        
-        favSet = [];
-      } else if(this.props.faveGiphyCollection.length === favSet.length) {
-        favRows.push(favSet);        
-        favSet = [];
-      } else if(((this.props.faveGiphyCollection.length - j) % 5) && j === ((this.props.faveGiphyCollection.length - 1))) {
-        favRows.push(favSet);
-      }
-    }
+    // let favSet = [];
+    // let favRows = [];
+    // for(let j = 0; j < this.props.faveGiphyCollection.length; j++) {
+    //   favSet.push(this.props.faveGiphyCollection[j])
+    //   if(favSet.length === 5) {
+    //     favRows.push(favSet);        
+    //     favSet = [];
+    //   } else if(this.props.faveGiphyCollection.length === favSet.length) {
+    //     favRows.push(favSet);        
+    //     favSet = [];
+    //   } else if(((this.props.faveGiphyCollection.length - j) % 5) && j === ((this.props.faveGiphyCollection.length - 1))) {
+    //     favRows.push(favSet);
+    //   }
+    // }
     return (
     <div>  
       <h3>Giphy Search Results:</h3>
@@ -44,7 +44,7 @@ class GiphyTable extends React.Component {
           }
         </tbody>
       </table>
-      <h3>My Favorite Giphies:</h3>
+      {/* <h3>My Favorite Giphies:</h3>
       <table>
         <tbody>
           {
@@ -53,7 +53,7 @@ class GiphyTable extends React.Component {
             })
           }
         </tbody>
-      </table>
+      </table> */}
     </div>
     )
   }

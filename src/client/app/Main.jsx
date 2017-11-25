@@ -13,7 +13,7 @@ const Main = (props) => (
       <Route exact path='/signup' component={SignUp}/>
       <Route exact path='/login' component={Login}/>
       <Route exact path='/' component={() => <Home props={props} />}/>
-      <Route exact path='/favorites' component={Favorites}/>
+      <Route exact path='/favorites' component={() => <Favorites props={props} />}/>
     </Switch> 
   </main>
 )

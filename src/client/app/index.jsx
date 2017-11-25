@@ -25,7 +25,7 @@ class App extends React.Component {
     
   handleGiphySearch(e, searchInput) {
     e.preventDefault();
-    axios.get(`http://api.giphy.com/v1/gifs/search?q=${searchInput.replace(/\s+/g,'+')}&api_key=${API_KEY.giphy}&rating=g&limit=10`)
+    axios.get(`http://api.giphy.com/v1/gifs/search?q=${searchInput.replace(/\s+/g,'+')}&api_key=${API_KEY.giphy}&rating=g&limit=25`)
     .then( (result) => {
       this.setState({searchedGiphys: result.data.data});
     })
@@ -40,8 +40,7 @@ class App extends React.Component {
   }
 
   handleSelectChange(e) {
-    e.persist()
-    this.setState({selectValue: e.target.value});
+    console.log(`[handleSelectChange] = ${e.target.value}`)
     axios.get(`/rating/${e.target.value}`)
     .then( (result) => {
       this.setState({favGiphys: result.data});
