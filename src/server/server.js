@@ -65,7 +65,8 @@ app.put('/updateRating/:updateRatingId-:newRatingId', (req, res) => {
 
 //Adding this route so we can respond to any possible URI request
 app.get('/*' , (req, res) => {
-  res.send(403, 'Endpoint Not Found');
+   res.sendFile(__dirname + '/public/index.html'); 
+  // res.send(403, 'Endpoint Not Found');
   /**
    * TODO:
    * Create HTML file to render an error message with an associted gif, and a link to homepage
