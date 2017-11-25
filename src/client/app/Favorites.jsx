@@ -10,7 +10,7 @@ class Favorites extends React.Component{
 
   render() {
     return (
-      <GiphyFaveTable faveGiphyCollection={this.props.props.faveGiphyCollection}/>
+      <GiphyFaveTable handleFaveUpdate={this.props.props.handleFaveUpdate} faveGiphyCollection={this.props.props.faveGiphyCollection}/>
     )
   }
 }

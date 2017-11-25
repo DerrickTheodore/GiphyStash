@@ -35,7 +35,7 @@ class Home extends React.Component {
                   <option value="5">Five</option>
                 </select>
               </div> */}
-            <GiphyTable giphyCollection={this.props.props.giphyCollection}/>
+            <GiphyTable handleFaveSelect={this.props.props.handleFaveUpdate} giphyCollection={this.props.props.giphyCollection}/>
       </div>
     )
   }

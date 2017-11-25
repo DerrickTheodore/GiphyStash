@@ -58,20 +58,6 @@ class App extends React.Component {
             faveGiphyCollection={this.state.favGiphys} 
             giphyCollection={this.state.searchedGiphys}
           />
-          {/* Giphy Search:<br/>
-          <input type="text" name="query" onChange={this.handleSearchChange.bind(this)}/>
-          <button  type="submit" onClick={this.handleGiphySearch.bind(this)}>Search</button>
-          <div>
-            Giphy Search by Rating:<br/>
-            <select onChange={this.handleSelectChange.bind(this)} value={this.state.selectValue}>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
-              <option value="4">Four</option>
-              <option value="5">Five</option>
-            </select>
-          </div>
-        <GiphyTable handleFaveUpdate={this.handleFaveUpdate.bind(this)} faveGiphyCollection={this.state.favGiphys} giphyCollection={this.state.searchedGiphys}/> */}
       </div>  
     )
   }
