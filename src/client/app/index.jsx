@@ -26,7 +26,7 @@ class App extends React.Component {
     
   handleGiphySearch(e, searchInput) {
     e.preventDefault();
-    axios.get(`http://api.giphy.com/v1/gifs/search?q=${searchInput.replace(/\s+/g,'+')}&api_key=${API_KEY.giphy}&rating=g&limit=25`)
+    axios.get(`http://api.giphy.com/v1/gifs/search?q=${searchInput.replace(/\s+/g,'+')}&api_key=${API_KEY.giphy}&limit=25`)
     .then( (result) => {
       this.setState({searchedGiphys: result.data.data});
     })

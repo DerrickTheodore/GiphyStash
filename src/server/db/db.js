@@ -1,5 +1,8 @@
 const CREDENTIALS = require('../CREDENTIALS');
 const Sequelize = require('sequelize');
+const Promise = require('bluebird');
+const bcrypt = Promise.promisifyAll(require('bcrypt-nodejs'));
+
 
 //Sequelize Setup with Postgres Database:
 const sequelize = new Sequelize('imgurcloneapp', CREDENTIALS.Username, CREDENTIALS.Password, {
@@ -33,31 +36,76 @@ const Images = sequelize.define('images', {
     type: Sequelize.INTEGER,
     allowNull: false,
     defaultValue: 1
+  },
+  userIdNumber: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  }
+}, {
+  classMethods: {
+    associate: function(models) {
+      Images.belongsToMany(models.User, {
+        foreignKey: {
+          allowNull: false
+        }
+      });
+    }
   }
 })
 
-//this creates table based off Schema above
-//Alright, now we can CRUD some data 
-Images.sync({force: true}).then(() => {
-  // //we can populate it with some data too
-  // return Images.bulkCreate([
-  //   {
-  //     url: 'https://...someImageUrl0',
-  //     rating: 1
-  //   },
-  //   {
-  //     url: 'https://...someImageUrl1',
-  //     rating: 3
-  //   },
-  //   {
-  //     url: 'https://...someImageUrl2',
-  //     rating: 5
-  //   },
-  //   {
-  //     url: 'https://...someImageUrl3'
-  //   }
-  // ]);
-})
+const Users = sequelize.define('users', {
+    usernameId: {
+      type: Sequelize.STRING,
+      unique: true,
+      allowNull: false
+    }, 
+    passwordId: {
+      type: Sequelize.STRING,
+      allowNull: false
+    }
+  }, {
+    classMethods: {
+      associate: function(models) {
+        User.hasMany(models.Images, {
+          onDelete: 'cascade',
+          foreignKey: {
+              field: "userId",
+              name: "userId",
+              allowNull: false
+          }
+        });
+      }
+    }
+  }
+)
 
 
-module.exports = Images;
+Users.prototype.hashPassword = function(password, callback) {
+  console.log(`password [prototype] ${password}`)
+  bcrypt.hash(password, null, null, (err, hash) => {
+    if(err) throw err    
+    this.set('passwordId', hash);
+    callback()    
+  })
+},
+Users.prototype.comparePassword = function(passedPassword, hashedPassword, callback) {
+  console.log(`p: ${passedPassword}, h: ${hashedPassword}`)
+  bcrypt.compare(passedPassword, hashedPassword, (err, res) => {
+    console.log(`boolean: ${res}`)    
+    if(err) throw err
+    callback(res)
+  })
+}
+
+
+Images.sync({force: true}, {returning: true}).then(() => {
+});
+
+Users.sync({force: true}, {returning: true}).then(() => {
+  // Users.create({usernameId: 'User', passwordId: 'password'}, {returning: true})
+});
+
+
+
+module.exports.Images = Images;
+module.exports.Users = Users;
