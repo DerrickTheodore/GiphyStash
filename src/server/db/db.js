@@ -80,18 +80,14 @@ const Users = sequelize.define('users', {
 )
 
 
-Users.prototype.hashPassword = function(password, callback) {
-  console.log(`password [prototype] ${password}`)
+Users.hashPassword = function(password, done) {
   bcrypt.hash(password, null, null, (err, hash) => {
-    if(err) throw err    
-    this.set('passwordId', hash);
-    callback()    
+    if(err) throw err
+    done(hash)    
   })
 },
 Users.prototype.comparePassword = function(passedPassword, hashedPassword, callback) {
-  console.log(`p: ${passedPassword}, h: ${hashedPassword}`)
   bcrypt.compare(passedPassword, hashedPassword, (err, res) => {
-    console.log(`boolean: ${res}`)    
     if(err) throw err
     callback(res)
   })
@@ -102,7 +98,6 @@ Images.sync({force: true}, {returning: true}).then(() => {
 });
 
 Users.sync({force: true}, {returning: true}).then(() => {
-  // Users.create({usernameId: 'User', passwordId: 'password'}, {returning: true})
 });
 
 

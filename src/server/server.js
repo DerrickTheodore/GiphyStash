@@ -22,26 +22,33 @@ app.use(bodyparser.json());
 app.use(express.static(path.join(__dirname, '/public')));
 
 
+//check if session exits, if so grab user data off of it and send back
+app.get('/checkSessionExist', (req, res) => {
+  if(req.session.user) {
+    let userIdName = { id: req.session.id, username: req.session.usernameId }         
+    return res.send({boolean: true, userInfo: userIdName});
+  } else {
+    res.send({boolean: false});
+  }
+});
 //quick query test from docs withing my first get request
 //tested on postman
 //this request will get all my favorites
 app.post('/login/username/:usernameId/password/:passwordId', (req, res) => {
-  console.log(`[ LOGIN ]req.params: ${JSON.stringify(req.params)}`);
   User.findOne({where: {usernameId: req.params.usernameId}})
   .then( (found) => {
     if(!found) {
-      res.redirect('/signup')
+      res.send( {boolean: false, message: 'Not a member'} )
     } else {
-    console.log(`found[ LOGIN ]: ${JSON.stringify(found)}`);
     found.comparePassword(req.params.passwordId, found.get('passwordId'), (result) => {
       if(result) { 
       req.session.regenerate(function() {
-        console.log(`found [Seesion] => ${found}`)
         req.session.user = found;
-        res.redirect('/');
+        let userIdName = { id: found.id, username: found.usernameId }         
+        res.send({boolean: true, userInfo: userIdName});
       });
       } else {
-        res.redirect('/login')
+        res.send({boolean: false, message: 'password incorrect'})        
       } 
     })
     }
@@ -49,33 +56,19 @@ app.post('/login/username/:usernameId/password/:passwordId', (req, res) => {
 })
 
 app.post('/signup/username/:usernameId/password/:passwordId', (req, res) => {
+  User.hashPassword(req.params.passwordId, (hash) => {
+    req.params.passwordId = hash;
+  })  
   User.findOne({attributes: ['usernameId'], where: {usernameId: req.params.usernameId}})
   .then( (found) => {
     if(!found) {
-      User.create(req.params)
-      .then( (newUser) => {
-        newUser.hashPassword(newUser.get('passwordId'), () => {
-          //here
-          newUser.save()
-          .then( (result) => {
-            req.session.regenerate(function() {
-              req.session.user = result;
-              res.redirect('/');
-            });
-          })
-          .catch((err) => console.error('error::', err))          
+        User.create(req.params)
+        .then( (newUser) => { 
+          res.end();
         })
-      })
-      .catch((err) => console.error('error:::', err))      
+        .catch((err) => console.log('error:', err)) 
     } else {
-      if( found.comparePassword(req.params.passwordId, found.get('passwordId')) ) {
-        req.session.regenerate(function() {
-          req.session.user = found;
-          res.redirect('/');
-        });
-      } else {
-        res.redirect('/login');
-      }
+      res.send({boolean: false, message: 'Already a member'})
     }
   })
 })
@@ -87,7 +80,9 @@ app.get('/allFav', (req, res) => {
    */
   Images.findAll({order: [
     ['id', 'ASC']
-  ]})
+  ], where: {
+    //userIdNumber: 
+  }})
   .then(images => {
     res.json(images)
   });
@@ -105,13 +100,13 @@ app.get('/rating/:ratingId', (req, res) => {
 })
 
 //Add selected favorites to database
-app.post('/addFaves', (req, res) => {  
+app.post('/addFaves', (req, res) => {
   req.body.userIdNumber = req.session.user.id
   Images.create(req.body)
   .then((images) => {
     res.json(images)
   })
-  .catch((err) => console.error('error:::', err))
+  .catch((err) => console.error('error:', err))
 })
 
 //delete fav by id off req.params.imageId

@@ -1,65 +1,74 @@
 import React from 'react';
+import axios from 'axios';
 import { render } from 'react-dom'; 
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import axios from 'axios'
 import Header from './Header.jsx';
 import Main from './Main.jsx';
-
-const API_KEY = require('../API_KEYs')
+import Login from './Login.jsx';
 
 class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      searchedGiphys: [],
-      favGiphys: [],
-      selectValue: ''
+      
+      userVerified: null,
+      currentUser: null,
+      responseMessage: ''
     }
   }
-
-  componentDidMount() {
-    axios.get('/allFav')
-    .then( (result) => {
-      this.setState({favGiphys: result.data})
+  
+  componentWillMount() {
+    axios.get('/checkSessionExist')
+    .then( (response) => {
+      if(response.data.boolean) { 
+        this.setState({userVerified: true, currentUser: response.data.userInfo })
+       } 
     })
-  }
-    
-  handleGiphySearch(e, searchInput) {
-    e.preventDefault();
-    axios.get(`http://api.giphy.com/v1/gifs/search?q=${searchInput.replace(/\s+/g,'+')}&api_key=${API_KEY.giphy}&limit=25`)
-    .then( (result) => {
-      this.setState({searchedGiphys: result.data.data});
-    })
-    .catch(err => console.error(err));  
-  }
-
-  handleFaveUpdate() {
-    axios.get('/allFav')
-    .then( (result) => {
-      this.setState({favGiphys: result.data});
-    })
-  }
-
-  handleSelectChange(e) {
-    this.setState({selectValue: e.target.value})
-    axios.get(`/rating/${e.target.value}`)
-    .then( (result) => {
-      this.setState({favGiphys: result.data});
-    })
+    .catch(err => console.log(err))
   }
   
+  handleLoginSubmit(userInfo){
+    axios.post(`/login/username/${userInfo.usernameId}/password/${userInfo.passwordId}`)
+    .then( (response) => {
+      response.data.boolean ? this.setState({userVerified: true, currentUser: response.data.userInfo }) : 
+      this.setState({responseMessage: response.data.message})
+    })
+  }
+
+  handleSignUpSubmit(userInfo){
+    axios.post(`/signup/username/${userInfo.usernameId}/password/${userInfo.passwordId}`)
+    .then( (response) => {
+      if(!response.data.boolean) {  
+        this.setState({responseMessage: response.data.message})
+      }
+    })
+  }
+
   render() {
     return (
       <div>
-          <Header />
-          <Main 
-            handleGiphySearch={this.handleGiphySearch.bind(this)}
-            handleFaveUpdate={this.handleFaveUpdate.bind(this)}
-            handleSelectChange={this.handleSelectChange.bind(this)}
-            faveGiphyCollection={this.state.favGiphys} 
-            giphyCollection={this.state.searchedGiphys}
-            selectValue={this.state.selectValue}
-          />
+          {
+            this.state.currentUser ?
+            <Main 
+            currentUser={this.state.currentUser}
+            handleSignUpSubmit={this.handleSignUpSubmit.bind(this)}
+            handleLoginSubmit={this.handleLoginSubmit.bind(this)}
+            />
+            :
+            this.state.responseMessage ? 
+            <div>
+            <h4 style={{color: "red", fontVariant: "smallCaps"}}>{this.state.responseMessage}</h4>
+            <Login 
+            handleSignUpSubmit={this.handleSignUpSubmit.bind(this)}
+            handleLoginSubmit={this.handleLoginSubmit.bind(this)}
+            />
+            </div>
+            :
+            <Login 
+            handleSignUpSubmit={this.handleSignUpSubmit.bind(this)}
+            handleLoginSubmit={this.handleLoginSubmit.bind(this)}
+            />
+          }
       </div>  
     )
   }

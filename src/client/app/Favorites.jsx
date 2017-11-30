@@ -17,16 +17,16 @@ class Favorites extends React.Component{
         <br/>
         <br/>
         <select onChange={(e) => {
-          this.props.props.handleSelectChange(e);
+          this.props.handleSelectChange(e);
         }
-        } value={this.props.props.selectValue}>
+        } value={this.props.selectValue}>
           <option value="1">One</option>
           <option value="2">Two</option>
           <option value="3">Three</option>
           <option value="4">Four</option>
           <option value="5">Five</option>
         </select>
-        <GiphyFaveTable handleFaveUpdate={this.props.props.handleFaveUpdate} faveGiphyCollection={this.props.props.faveGiphyCollection}/>
+        <GiphyFaveTable handleFaveUpdate={this.props.handleFaveUpdate} faveGiphyCollection={this.props.faveGiphyCollection}/>
       </div>
     )
   }

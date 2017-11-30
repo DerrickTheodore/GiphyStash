@@ -1,26 +1,31 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-import axios from 'axios';
 
 class Login extends React.Component{
   constructor(props){
     super(props)
     this.state = {
-      username: '',
-      password: '' 
+      usernameLogin: '',
+      passwordLogin: '',
+      usernameSignUp: '',
+      passwordSignUp: ''  
     }
   }
 
-  handleUsernamefieldChange(e){
-    this.setState({username: e.target.value})
+  handleUsernameLoginfieldChange(e){
+    this.setState({usernameLogin: e.target.value})
   }
 
-  handlePasswordfieldChange(e){
-    this.setState({password: e.target.value})    
+  handleUsernameSignUpfieldChange(e){
+    this.setState({usernameSignUp: e.target.value})
   }
 
-  handleSubmit(){
-    axios.post(`/login/username/${this.state.username}/password/${this.state.password}`);
+  handlePasswordLoginfieldChange(e){
+    this.setState({passwordLogin: e.target.value})    
+  }
+
+  handlePasswordSignUpfieldChange(e){
+    this.setState({passwordSignUp: e.target.value})    
   }
 
   render(){
@@ -29,15 +34,30 @@ class Login extends React.Component{
         <h2>Login:</h2>
         <form onSubmit={(e) => {
             e.preventDefault();
-            this.handleSubmit();
+            let userInfo = { usernameId: this.state.usernameLogin, passwordId: this.state.passwordLogin }
+            this.props.handleLoginSubmit(userInfo);
           }
         }>
         <h4>Username:</h4>
-        <input onChange={this.handleUsernamefieldChange.bind(this)} type="text" name="username" value={this.state.username}/>
+        <input onChange={this.handleUsernameLoginfieldChange.bind(this)} type="text" name="username" value={this.state.usernameLogin}/>
         <br/>
         <h4>password:</h4>
-        <input onChange={this.handlePasswordfieldChange.bind(this)} type="text" name="password" value={this.state.password}/>
+        <input onChange={this.handlePasswordLoginfieldChange.bind(this)} type="text" name="password" value={this.state.passwordLogin}/>
         <input type="submit" value="login"/>
+        </form>
+        <h2>SignUp:</h2>
+        <form onSubmit={(e) => {
+            e.preventDefault();
+            let userInfo = { usernameId: this.state.usernameSignUp, passwordId: this.state.passwordSignUp }            
+            this.props.handleSignUpSubmit(userInfo);
+          }
+        }>
+        <h4>Username:</h4>
+        <input onChange={this.handleUsernameSignUpfieldChange.bind(this)} type="text" name="username" value={this.state.usernameSignUp}/>
+        <br/>
+        <h4>password:</h4>
+        <input onChange={this.handlePasswordSignUpfieldChange.bind(this)} type="text" name="password" value={this.state.passwordSignUp}/>
+        <input type="submit" value="sign up"/>
         </form>
       </div>
     )

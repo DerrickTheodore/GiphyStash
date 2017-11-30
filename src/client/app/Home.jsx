@@ -17,11 +17,11 @@ class Home extends React.Component {
   render() {
     return (  
       <div>
-        <h2>Homepage:</h2>
+        <h2>Search Page:</h2>
         Giphy Search:<br/>
               <input type="text" name="query" onChange={this.handleSearchChange.bind(this)}/>
-              <button  type="submit" onClick={(e) => this.props.props.handleGiphySearch(e, this.state.searchInput)}>Search</button>
-            <GiphyTable handleFaveSelect={this.props.props.handleFaveUpdate} giphyCollection={this.props.props.giphyCollection}/>
+              <button  type="submit" onClick={(e) => this.props.handleGiphySearch(e, this.state.searchInput)}>Search</button>
+            <GiphyTable handleFaveSelect={this.props.handleFaveUpdate} giphyCollection={this.props.giphyCollection}/>
       </div>
     )
   }
