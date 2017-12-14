@@ -12,13 +12,62 @@ import NotFound from './NotFound.jsx';
 
 const API_KEY = require('../API_KEYs')
 
+const ExampleImageData = [
+  {
+    images: {
+      fixed_height_small: {
+        url: "https://media2.giphy.com/media/26n79t82lmj989iAE/100.gif",
+        id: 0
+      }
+    }
+
+  },
+  {
+    images: {
+      fixed_height_small: {
+        url: "https://media2.giphy.com/media/26n79t82lmj989iAE/101.gif",
+        id: 1
+      }
+    }
+
+  },
+  {
+    images: {
+      fixed_height_small: {
+        url: "https://media2.giphy.com/media/26n79t82lmj989iAE/102.gif",
+        id: 2
+      }
+    }
+
+  },
+  {
+    images: {
+      fixed_height_small: {
+        url: "https://media2.giphy.com/media/26n79t82lmj989iAE/103.gif",
+        id: 3
+      }
+    }
+
+  },
+  {
+    images: {
+      fixed_height_small: {
+        url: "https://media2.giphy.com/media/26n79t82lmj989iAE/104.gif",
+        id: 4
+      }
+    }
+
+  }
+]
+
 class Main extends React.Component{
   constructor(props) {
       super(props)
       this.state = {
         searchedGiphys: [],
         favGiphys: [],
-        selectValue: ''
+        selectValue: '',
+        currentGiphyView: null
       }
   }
 
@@ -46,7 +95,15 @@ class Main extends React.Component{
     })
   }
 
+  handleGiphyViewSelected(giphy, evt) {
+    console.log('evt', evt)
+    console.log('giphy selected for veiw', giphy)
+    
+    this.setState({currentGiphyView: giphy})
+  }
+
   componentDidMount() {
+    // this.setState({searchedGiphys: ExampleImageData})
     axios.get('/allFav')
     .then( (result) => {
       this.setState({favGiphys: result.data})
@@ -62,7 +119,9 @@ class Main extends React.Component{
             handleSignUpSubmit={this.props.handleSignUpSubmit.bind(this)}
             handleLoginSubmit={this.props.handleLoginSubmit.bind(this)}
           />}/>
-          <Route exact path='/' component={ () => <Home 
+          <Route exact path='/' component={ () => <Home
+            currentGiphyView={this.state.currentGiphyView}
+            handleGiphyViewSelected={this.handleGiphyViewSelected.bind(this)}  
             handleGiphySearch={this.handleGiphySearch.bind(this)}
             handleFaveUpdate={this.handleFaveUpdate.bind(this)}
             giphyCollection={this.state.searchedGiphys}
@@ -81,3 +140,4 @@ class Main extends React.Component{
 }
 
 export default Main;
+

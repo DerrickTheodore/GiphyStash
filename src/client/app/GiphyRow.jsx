@@ -10,7 +10,7 @@ class GiphyRow extends React.Component {
     return (
       <tr>
         {this.props.giphyRow.map( (giphy, index) => {
-          return <GiphyRowData handleFaveSelect={this.props.handleFaveSelect} giphy={giphy} key={index} />
+          return <GiphyRowData handleGiphyViewSelected={this.props.handleGiphyViewSelected} handleFaveSelect={this.props.handleFaveSelect} giphy={giphy} key={index} />
         })}
       </tr>
     )

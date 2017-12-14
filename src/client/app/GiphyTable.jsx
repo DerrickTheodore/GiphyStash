@@ -1,6 +1,6 @@
 import React from 'react';
 import GiphyRow from './GiphyRow.jsx';
-// import GiphyFaveRow from './GiphyFaveRow.jsx';
+import GiphyView from './GiphyView.jsx';
 
 class GiphyTable extends React.Component {
   constructor(props) {
@@ -19,12 +19,14 @@ class GiphyTable extends React.Component {
     }
     return (
     <div>  
+      <GiphyView currentGiphyView={this.props.currentGiphyView}/>
+      <div></div>
       <h3>Giphy Search Results:</h3>
       <table>
         <tbody>
           {
             rows.map((row, index) => {
-              return <GiphyRow handleFaveSelect={this.props.handleFaveSelect} giphyRow={row} key={index}/>
+              return <GiphyRow  handleGiphyViewSelected={this.props.handleGiphyViewSelected}  handleFaveSelect={this.props.handleFaveSelect} giphyRow={row} key={index}/>
             })
           }
         </tbody>

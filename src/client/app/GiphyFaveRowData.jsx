@@ -4,7 +4,10 @@ import FaveStars from './FaveStars.jsx';
 
 class GiphyFaveRowData extends React.Component {
   constructor(props) {
-    super(props) 
+    super(props)
+    this.state = {
+      mouseOver: false
+    } 
   }
 
   handleDeleteClick() {
@@ -16,6 +19,10 @@ class GiphyFaveRowData extends React.Component {
     })
   }
 
+  handleImageHover() {
+    this.setState({mouseOver: !this.state.mouseOver});
+  }
+
   render() {
   
     const starArr = [];
@@ -24,7 +31,12 @@ class GiphyFaveRowData extends React.Component {
     }
    
     return (
-        <td><img src={this.props.giphy.url} onClick={this.handleDeleteClick.bind(this)}/>
+        <td><img 
+          src={this.props.giphy.url} 
+          onClick={this.handleDeleteClick.bind(this)}
+          onMouseEnter={this.handleImageHover.bind(this)}
+          onMouseLeave={this.handleImageHover.bind(this)}  
+          />
           {starArr}
         </td>
     )

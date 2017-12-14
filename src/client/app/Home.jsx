@@ -21,7 +21,7 @@ class Home extends React.Component {
         Giphy Search:<br/>
               <input type="text" name="query" onChange={this.handleSearchChange.bind(this)}/>
               <button  type="submit" onClick={(e) => this.props.handleGiphySearch(e, this.state.searchInput)}>Search</button>
-            <GiphyTable handleFaveSelect={this.props.handleFaveUpdate} giphyCollection={this.props.giphyCollection}/>
+            <GiphyTable handleGiphyViewSelected={this.props.handleGiphyViewSelected} currentGiphyView={this.props.currentGiphyView} handleFaveSelect={this.props.handleFaveUpdate} giphyCollection={this.props.giphyCollection}/>
       </div>
     )
   }

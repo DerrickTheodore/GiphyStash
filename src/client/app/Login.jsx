@@ -50,6 +50,9 @@ class Login extends React.Component{
             e.preventDefault();
             let userInfo = { usernameId: this.state.usernameSignUp, passwordId: this.state.passwordSignUp }            
             this.props.handleSignUpSubmit(userInfo);
+            this.setState({usernameSignUp: ''})
+            this.setState({passwordSignUp: ''})
+            
           }
         }>
         <h4>Username:</h4>
