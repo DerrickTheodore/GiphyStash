@@ -100,11 +100,17 @@ class Main extends React.Component{
   }
 
   handleSelectChange(e) {
-    this.setState({selectValue: e.target.value})
-    axios.get(`/rating/${e.target.value}`)
-    .then( (result) => {
-      this.setState({favGiphys: result.data});
-    })
+    let value = e.target.value;
+    let selectedAll = !Number(value)
+    this.setState({selectValue: value})
+    if(!selectedAll){
+      axios.get(`/rating/${value}`)
+      .then( (result) => {
+        this.setState({favGiphys: result.data});
+      })
+    } else {
+      this.handleFaveUpdate()
+    }
   }
 
   handleGiphyViewSelected(giphy, evt) {  
