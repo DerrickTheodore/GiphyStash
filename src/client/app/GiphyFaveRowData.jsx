@@ -32,9 +32,11 @@ class GiphyFaveRowData extends React.Component {
    
     return (
         <td><img 
-          src={this.props.giphy.url} 
+          src={this.props.giphy.url}
+          alt={`no image ${this.props.giphy.id}`}
+          style={this.state.mouseOver ? {border: "5px solid black"} : {border: "none"}}  
           onClick={this.handleDeleteClick.bind(this)}
-          onMouseEnter={this.handleImageHover.bind(this)}
+          onMouseOver={this.handleImageHover.bind(this)}
           onMouseLeave={this.handleImageHover.bind(this)}  
           />
           {starArr}

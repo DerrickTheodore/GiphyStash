@@ -13,8 +13,9 @@ class GiphyRowData extends React.Component {
 
   handleFavClick() {
     let url = this.props.giphy.images.fixed_height_small.url;
+    let id = this.props.giphy.images.fixed_height_small.id;
     this.clicked.push(setTimeout(() => {
-        axios.post('/addFaves', {url: url})
+        axios.post('/addFaves', {url: url, id: id})
         .then( () => {
           this.props.handleFaveSelect()
         })
@@ -38,7 +39,7 @@ class GiphyRowData extends React.Component {
           onClick={this.handleFavClick.bind(this)}
           onMouseOver={this.handleImageHover.bind(this)}
           onMouseLeave={this.handleImageHover.bind(this)}
-          onDoubleClick={ (e) => { this.props.handleGiphyViewSelected(this.props.giphy.images.fixed_height_small.url, e)} }                        
+          onDoubleClick={ (e) => { this.props.handleGiphyViewSelected(this.props.giphy.images.original.url, e)} }                        
           
         />
         </td>
