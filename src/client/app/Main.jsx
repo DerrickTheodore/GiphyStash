@@ -73,11 +73,23 @@ class Main extends React.Component{
 
   handleGiphySearch(e, searchInput) {
     e.preventDefault();
+    const randomNumberBetweenZeroWithLimit = (number, limit) => {
+      let maxCountLimit = number > limit ? limit : number;
+	    let randomInDec = Math.random() * maxCountLimit	
+      return Math.random() * maxCountLimit < 0 ? 0 : Math.floor(randomInDec);
+    }
+    
     axios.get(`http://api.giphy.com/v1/gifs/search?q=${searchInput.replace(/\s+/g,'+')}&api_key=${API_KEY.giphy}&limit=25`)
     .then( (result) => {
-      this.setState({searchedGiphys: result.data.data});
+      let queryTotalResults = result.data.pagination.total_count;
+      let randomOffset = randomNumberBetweenZeroWithLimit(queryTotalResults, 5000); 
+      axios.get(`http://api.giphy.com/v1/gifs/search?q=${searchInput.replace(/\s+/g,'+')}&api_key=${API_KEY.giphy}&limit=25&offset=${randomOffset}`)
+      .then( (result) => {
+        this.setState({searchedGiphys: result.data.data});
+      })
+      .catch(err => console.error(err));  
     })
-    .catch(err => console.error(err));  
+    .catch(err => console.error(err)); 
   }
 
   handleFaveUpdate() {
@@ -95,10 +107,7 @@ class Main extends React.Component{
     })
   }
 
-  handleGiphyViewSelected(giphy, evt) {
-    console.log('evt', evt)
-    console.log('giphy selected for veiw', giphy)
-    
+  handleGiphyViewSelected(giphy, evt) {  
     this.setState({currentGiphyView: giphy})
   }
 
