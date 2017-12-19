@@ -18,14 +18,14 @@ app.use(session({
   resave: true,
   saveUninitialized: true,
 }));
-app.use(bodyparser.json()); 
+app.use(bodyparser.json());
 app.use(express.static(path.join(__dirname, '/public')));
 
 
 //check if session exits, if so grab user data off of it and send back
-app.get('/checkSessionExist', (req, res) => {
-  if(req.session.user) {
-    let userIdName = { id: req.session.id, username: req.session.usernameId }         
+app.get('/checkSessionExist/sessionid/:sessionId', (req, res) => {
+  if(req.session.id === req.params.sessionId) {
+    let userIdName = { id: req.session.id, username: req.session.user.usernameId }         
     return res.send({boolean: true, userInfo: userIdName});
   } else {
     res.send({boolean: false});
@@ -44,7 +44,7 @@ app.post('/login/username/:usernameId/password/:passwordId', (req, res) => {
       if(result) { 
       req.session.regenerate(function() {
         req.session.user = found;
-        let userIdName = { id: found.id, username: found.usernameId }         
+        let userIdName = { id: found.id, username: found.get('usernameId') }         
         res.send({boolean: true, userInfo: userIdName});
       });
       } else {

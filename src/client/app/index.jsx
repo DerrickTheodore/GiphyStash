@@ -18,7 +18,9 @@ class App extends React.Component {
   }
   
   componentWillMount() {
-    axios.get('/checkSessionExist')
+    let currentUserSessionId = this.state.currentUser.id;
+
+    axios.get(`/checkSessionExist/sessionid/${currentUserSessionId}`)
     .then( (response) => {
       if(response.data.boolean) { 
         this.setState({userVerified: true, currentUser: response.data.userInfo })
